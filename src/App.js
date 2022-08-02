@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
-function App() {
+const fruitDb = {
+  "🍇": "Grapes",
+  "🍉": "Watermelon",
+  "🍓": "Strawberry",
+  "🍍": "Pineapple",
+  "🍐": "Pear",
+  "🍎": "Apple",
+  "🫐": "Bluberry",
+  "🥝": "Kiwi",
+  "🥑": "Avacado",
+  "🥭": "Mango",
+  "🍋": "Lemon",
+  "🍒": "Cherry"
+};
+let emojiArray = Object.keys(fruitDb);
+
+export default function App() {
+  var [meaning, setMeaning] = useState("");
+
+  function emojiEntered(e) {
+    var inputEmoji = e.target.value;
+    meaning = fruitDb[inputEmoji];
+    if (meaning === undefined) {
+      meaning = `Sorry we dont have ${inputEmoji} emoji in our databse `;
+    }
+    setMeaning(meaning);
+  }
+  function emojiClicked(emojiClicked) {
+    meaning = fruitDb[emojiClicked];
+    setMeaning(meaning);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Fruit Interpreter</h1>
+      <p>Click on the below emoji to know the name</p>
+      <input
+        onChange={emojiEntered}
+        placeholder="Enter fruit emoji or press th emoji"
+      ></input>
+      <h2>{meaning}</h2>
+
+      <div>
+        {emojiArray.map((item) => {
+          return (
+            <span
+              onClick={() => emojiClicked(item)}
+              className="emoji"
+              key={item}
+            >
+              {item}
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 }
-
-export default App;
